@@ -2,45 +2,37 @@ package com.github;
 
 public class MergeTwoSortedLists {
     public static ListNode mergeTwoLists(ListNode l1, ListNode l2) {
-        ListNode result = new ListNode();
+        ListNode dummyNode = new ListNode();
 
         ListNode first = l1;
         ListNode second = l2;
-        ListNode current = result;
-        while (first.next != null || second.next != null) {
+        ListNode current = dummyNode;
+        while (first != null && second != null) {
 
-            if(first == null) {
-                while (second != null) {
-                    result.next = second;
-                    second = second.next;
-                }
-                break;
-
-            }
-
-            if(second == null) {
-                while (first != null) {
-                    result.next = first;
-                    first = first.next;
-                }
-                break;
-            }
-
-            
-            int val1=  first.val;
-            int val2 = second.val;
-
-            if(val1 < val2) {
-                result.next = first;
+            if(first.val < second.val) {
+                current.next = first;
                 first = first.next;
-            }
-            else {
-                result.next = second;
+            }  else {
+                current.next = second;
                 second = second.next;
             }
+            current = current.next;
         }
 
-        return result.next;
+
+        while (first != null) {
+            current.next = first;
+            first = first.next;
+            current = current.next;
+        }
+
+        while (second != null) {
+            current.next = second;
+            second = second.next;
+            current = current.next;
+        }
+
+        return dummyNode.next;
     }
 
 
@@ -58,6 +50,13 @@ public class MergeTwoSortedLists {
         ListNode(int val, ListNode next) {
             this.val = val;
             this.next = next;
+        }
+
+        @Override
+        public String toString() {
+            return "ListNode{" +
+                    "val=" + val +
+                    '}';
         }
     }
 
